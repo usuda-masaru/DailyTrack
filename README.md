@@ -1,162 +1,108 @@
-# DailyTrack - 習慣トラッカーアプリ
+# 毎日の習慣 (DailyTrack)
 
-DailyTrackは、ユーザーが自由に登録した習慣項目（筋トレ、英会話など）を毎日チェックし、カレンダーで達成状況を可視化する習慣トラッカーアプリです。
+毎日の習慣を記録し、カレンダーで達成状況を可視化する習慣トラッカーアプリです。
+
+**App Store**: [毎日の習慣](https://apps.apple.com/app/id6757803706) *(公開後にリンクが有効になります)*
+
+## 主な機能
+
+- 自由に習慣を登録（筋トレ、語学学習など）
+- カレンダーで日付を選択して習慣をチェック
+- 各習慣ごとに専用のカレンダー表示
+- 達成状況の統計（合計日数、現在の連続日数、最長連続日数）
+- カラフルなアイコンで習慣を識別
+- シンプルで直感的な操作
 
 ## 技術スタック
 
-- **フレームワーク**: React Native + Expo
-- **言語**: TypeScript
-- **状態管理**: React Hooks
-- **データ保存**: AsyncStorage（ローカルストレージ）
-- **ナビゲーション**: React Navigation（タブナビゲーション）
-- **カレンダーUI**: react-native-calendars
-- **ビルド・申請**: EAS Build / EAS Submit
+| 項目 | 技術 |
+|------|------|
+| フレームワーク | React Native + Expo |
+| 言語 | TypeScript |
+| データ保存 | AsyncStorage（ローカルのみ） |
+| ナビゲーション | React Navigation |
+| カレンダーUI | react-native-calendars |
+| ビルド・申請 | EAS Build / EAS Submit |
 
 ## セットアップ
 
-### 1. 依存関係のインストール
-
 ```bash
+# 依存関係のインストール
 npm install
-```
 
-### 2. 開発サーバーの起動
-
-```bash
+# 開発サーバーの起動
 npm start
+
+# トンネルモードで起動（実機テスト用）
+npx expo start --tunnel
 ```
-
-その後、Expo Goアプリでスキャンするか、以下のコマンドでエミュレータ/シミュレータで起動できます：
-
-```bash
-npm run android  # Android
-npm run ios      # iOS (macOS required)
-```
-
-## EAS Build セットアップ（Windowsでのリリース申請）
-
-### 1. Expoアカウントの作成
-
-1. https://expo.dev にアクセス
-2. アカウントを作成（無料）
-
-### 2. EAS CLIでログイン
-
-```bash
-eas login
-```
-
-### 3. プロジェクトIDの取得
-
-```bash
-eas init
-```
-
-このコマンドで自動的にプロジェクトIDが生成され、`app.json`の`extra.eas.projectId`に設定されます。
-
-### 4. app.jsonの設定変更
-
-`app.json`内の以下の項目を自分の情報に変更してください：
-
-- `ios.bundleIdentifier`: `com.yourcompany.dailytrack` → 自分のバンドルID
-- `android.package`: `com.yourcompany.dailytrack` → 自分のパッケージ名
-
-### 5. ビルドの実行
-
-#### Android（Windowsから可能）
-
-```bash
-npm run build:android
-```
-
-初回ビルド時に、キーストアの生成を求められます。EASに自動生成させることをお勧めします。
-
-#### iOS（WindowsからでもEASクラウドビルドで可能）
-
-```bash
-npm run build:ios
-```
-
-**注意**: iOSのビルドには、Apple Developer Programへの登録（年間$99）が必要です。
-
-### 6. ストアへの申請
-
-#### Androidの場合
-
-1. Google Play Consoleでアプリを作成
-2. 以下のコマンドで申請：
-
-```bash
-npm run submit:android
-```
-
-#### iOSの場合
-
-1. App Store Connectでアプリを作成
-2. 以下のコマンドで申請：
-
-```bash
-npm run submit:ios
-```
-
-## アプリの機能
-
-### 1. 習慣管理画面
-- 習慣の追加（+ボタン）
-- 習慣の削除（長押し）
-- 今日の習慣のチェック
-
-### 2. カレンダー画面
-- 月間カレンダーで達成状況を可視化
-- 各習慣の色でドット表示
-- 今月の達成率表示
 
 ## プロジェクト構造
 
 ```
 DailyTrack/
+├── App.tsx                 # エントリーポイント
+├── app.json               # Expo 設定
+├── eas.json               # EAS Build 設定
+├── package.json           # 依存関係
 ├── src/
-│   ├── components/      # 再利用可能なコンポーネント
-│   │   └── HabitItem.tsx
-│   ├── screens/        # 画面コンポーネント
-│   │   ├── HabitsScreen.tsx
-│   │   └── CalendarScreen.tsx
-│   ├── types/          # TypeScript型定義
-│   │   └── index.ts
-│   └── utils/          # ユーティリティ関数
-│       └── storage.ts
-├── App.tsx             # メインアプリファイル
-├── app.json            # Expo設定
-├── eas.json            # EAS Build設定
-└── package.json        # 依存関係
+│   ├── types/
+│   │   └── index.ts       # 型定義
+│   ├── utils/
+│   │   └── storage.ts     # AsyncStorage ユーティリティ
+│   ├── components/
+│   │   └── HabitItem.tsx  # 再利用可能コンポーネント
+│   └── screens/
+│       ├── MainCalendarScreen.tsx    # メインカレンダー
+│       ├── HabitCalendarScreen.tsx   # 個別習慣カレンダー
+│       └── ManageHabitsScreen.tsx    # 習慣管理
+├── assets/
+│   ├── icon.png           # アプリアイコン (1024x1024)
+│   └── splash-icon.png    # スプラッシュ画面
+├── docs/                  # ドキュメント
+│   ├── index.html         # プライバシーポリシー (GitHub Pages)
+│   ├── RELEASE_GUIDE.md   # リリースガイド
+│   └── ...                # その他ガイド
+└── screenshots/           # App Store 用スクリーンショット
+    ├── iphone_67/         # 6.7インチ用
+    └── iphone_65/         # 6.5インチ用
 ```
 
-## トラブルシューティング
+## ドキュメント
 
-### ビルドエラーが発生した場合
+| ドキュメント | 内容 |
+|-------------|------|
+| [RELEASE_GUIDE.md](docs/RELEASE_GUIDE.md) | iOS リリース完全ガイド（フロー図付き） |
+| [APP_STORE_CHECKLIST.md](docs/APP_STORE_CHECKLIST.md) | App Store 申請チェックリスト |
+| [IOS_SUBMISSION_GUIDE.md](docs/IOS_SUBMISSION_GUIDE.md) | iOS 申請詳細ガイド |
+| [ASSETS_GUIDE.md](docs/ASSETS_GUIDE.md) | アセット作成ガイド |
+| [BUILD_AND_RELEASE_GUIDE.md](docs/BUILD_AND_RELEASE_GUIDE.md) | ビルド＆リリースガイド |
+| [STORE_LISTING.md](docs/STORE_LISTING.md) | ストア掲載情報 |
+| [PRIVACY_POLICY.md](docs/PRIVACY_POLICY.md) | プライバシーポリシー |
 
-1. `node_modules`を削除して再インストール：
-   ```bash
-   rm -rf node_modules
-   npm install
-   ```
+## ビルドコマンド
 
-2. Expoキャッシュをクリア：
-   ```bash
-   npx expo start -c
-   ```
+```bash
+# iOS ビルド
+eas build --platform ios
 
-### iOSビルドでコード署名エラーが発生した場合
+# App Store Connect に提出
+eas submit --platform ios
 
-EAS Buildは自動的にコード署名を処理しますが、Apple Developer Programのアカウント情報が必要です。
+# Android ビルド (参考)
+eas build --platform android
+```
 
-## 参考リンク
+## プライバシー
 
-- [Expo Documentation](https://docs.expo.dev/)
-- [EAS Build Documentation](https://docs.expo.dev/build/introduction/)
-- [React Navigation](https://reactnavigation.org/)
-- [react-native-calendars](https://github.com/wix/react-native-calendars)
+このアプリは一切のユーザーデータを収集しません。すべてのデータは端末内にのみ保存され、外部サーバーには送信されません。
+
+**プライバシーポリシー**: https://usuda-masaru.github.io/DailyTrack/
 
 ## ライセンス
 
 MIT
+
+---
+
+*2026年1月リリース*

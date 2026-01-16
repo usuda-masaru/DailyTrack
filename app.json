@@ -16,11 +16,10 @@
     "primaryColor": "#007AFF",
     "backgroundColor": "#ffffff",
     "ios": {
-      "supportsTablet": true,
+      "supportsTablet": false,
       "bundleIdentifier": "com.dailytrack.app",
       "buildNumber": "1",
       "infoPlist": {
-        "NSUserTrackingUsageDescription": "このアプリはトラッキングを行いません。",
         "ITSAppUsesNonExemptEncryption": false
       },
       "config": {
@@ -41,6 +40,12 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
-    "privacy": "public"
+    "privacy": "public",
+    "extra": {
+      "eas": {
+        "projectId": "f3ea6c13-4c22-4bac-87d8-8a8329410393"
+      }
+    },
+    "owner": "reamon"
   }
 }
